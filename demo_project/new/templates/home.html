@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Scheduler Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex; /* For centering using flexbox */
+            justify-content: center; /* Horizontally center content */
+            align-items: center; /* Vertically center content */
+            min-height: 100vh; /* Occupy full viewport height */
+        }
+
+        button {
+            background-color: #4CAF50; /* Green color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button-container {
+            display: flex; /* Use flexbox for layout */
+            flex-wrap: wrap; /* Allow buttons to wrap onto multiple lines */
+            justify-content: space-around; /* Equally distribute buttons horizontally */
+            margin: 10px auto; /* Add margin for spacing */
+          }
+        
+        .button-container button {
+            margin: 5px; /* Add space between buttons */
+            padding: 10px 20px; /* Adjust padding for button size */
+            border: 1px solid #ccc;
+            border-radius: 5px; /* Add rounded corners */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+        </style>
+        </head>
+        <body>
+        <div class="button-container">
+            <button onclick="location.href='delete.html'">Delete Job</button>
+            <button onclick="location.href='enable.html'">Enable Job</button>
+            <button onclick="location.href='disable.html'">Disable Job</button>
+            <button onclick="location.href='job_status.html'">Status of Job</button>
+        </div>
+        
+        <div class="button-container">
+            <button onclick="location.href='run_job.html'">Force Run a Job</button>
+            <button onclick="location.href='purge.html'">Purge Job</button>
+            <button onclick="location.href='reload.html'">Reload Job</button>
+            <button onclick="location.href='list.html'">List Job</button>
+        </div>
+        <div class="button-container">
+            <button onclick="location.href='add.html'">Add a Job</button>
+            <button onclick="location.href='modify.html'">Modify Job</button>
+        </div>
+        </style>
+        </head>
+        </html>

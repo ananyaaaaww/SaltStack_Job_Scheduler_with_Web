@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt Function Form</title>
+</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 90vh; 
+}
+.container {
+    background-color: #f5f5f5; 
+    padding: 20px; 
+    border-radius: 5px;
+    color: #9b59b6;
+}
+form {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+label {
+    margin-bottom: 5px; 
+    display: block;
+}
+input[type="text"],
+button {
+    padding: 10px 15px; 
+    margin-bottom: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #9b59b6; 
+    color: white; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease-in-out; 
+}
+
+button:hover {
+    background-color: white; 
+    color: #9b59b6;
+}
+
+</style>
+<body>
+    <div class="container">
+        <h2>Enable Scheduled Job: </h2>
+    <form method="post" action=" ">
+    {% csrf_token %} 
+    <label for="salt_function">Salt Function:</label>
+    <input type="text" name="salt_function" id="salt_function" value="schedule.enable_job" readonly>
+    <br>
+    <label for="target_minion">Target Minion(s):</label>
+    <input type="text" name="target_minion" id="target_minion"> 
+    <br>
+    <label for="jobname">Jobname:</label>
+    <input type="text" name="jobname" id="jobname"> 
+    <br>
+    <button type="submit">Enable Job</button>
+</form> 
+</body>
+</html>
