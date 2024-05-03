@@ -9,59 +9,148 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
+            padding-left: 20px; /* Left padding */
+            padding-right: 20px; /* Right padding */
             display: flex; /* For centering using flexbox */
             justify-content: center; /* Horizontally center content */
             align-items: center; /* Vertically center content */
             min-height: 100vh; /* Occupy full viewport height */
         }
+        .top-left-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px; /* Adjust width of the image */
+            height: auto;
+            width: 30%; /* Adjust the width as needed */
+            z-index: 1; /* Ensure the image is above other content */
+        }        
 
-        button {
-            background-color: #4CAF50; /* Green color */
-            border: none;
-            color: white;
-            padding: 15px 32px;
+        .top-center {
+            position: absolute;
+            top: 80px; /* Adjust this value for vertical position */
+            left: 42%; /* Center horizontally */
+            color: #5f259f;
+            transform: translate(-50%, -50%); /* Center vertically */
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
+            width: 100%;
         }
 
-        .button-container {
-            display: flex; /* Use flexbox for layout */
-            flex-wrap: wrap; /* Allow buttons to wrap onto multiple lines */
-            justify-content: space-around; /* Equally distribute buttons horizontally */
-            margin: 10px auto; /* Add margin for spacing */
+        .colored-band {
+            background-color: #c6a6ea;
+            height: 6.5cm;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Ensure it's on top of other content */
           }
         
-        .button-container button {
-            margin: 5px; /* Add space between buttons */
-            padding: 10px 20px; /* Adjust padding for button size */
-            border: 1px solid #ccc;
-            border-radius: 5px; /* Add rounded corners */
-            cursor: pointer; /* Change cursor to pointer on hover */
+        .content {
+            padding-top: 3cm;
+            padding-right: 30px; /* Adjust this value to provide space for the band */
+            /* Add other styling for your content */
+          }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            gap: 1cm; /* Adjust the gap between buttons */
+            justify-content: center;
+            max-width: 800px; /* Adjust this value as needed */
+            margin: 0 auto;
+            padding-top: 80px;
+            padding-right: 40px;
         }
-        </style>
-        </head>
-        <body>
-        <div class="button-container">
-            <button onclick="location.href='delete.html'">Delete Job</button>
-            <button onclick="location.href='enable.html'">Enable Job</button>
-            <button onclick="location.href='disable.html'">Disable Job</button>
-            <button onclick="location.href='job_status.html'">Status of Job</button>
-        </div>
+        .button{
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 1cm; /* Adjust margin to add space between buttons */
+        }
+
+        .button-56 {
+        align-items: center;
+        background-color: #6f3aa8;
+        border: 2px solid #111;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color: #ffffff; ;
+        cursor: pointer;
+        display: flex;
+        font-family: Inter,sans-serif;
+        font-size: 19px;
+        justify-content: center;
+        line-height: 24px;
+        max-width: 100%;
+        height: 68px;
+        padding: 15px 30px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        }
+
+        .button-56:after {
+        background-color: #c6a6ea;
+        border-radius: 8px;
+        content: "";
+        display: block;
+        height: 68px;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        top: -2px;
+        transform: translate(8px, 8px);
+        transition: transform .2s ease-out;
+        z-index: -1;
+        }
+
+        .button-56:hover:after {
+        transform: translate(0, 0);
+        }
+
+        .button-56:active {
+        background-color: #6f3aa8;
+        outline: 0;
+        }
+
+        .button-56:hover {
+        outline: 0;
+        }
+
+        @media (min-width: 768px) {
+        .button-56 {
+            padding: 0 40px;
+        }
+        }
         
-        <div class="button-container">
-            <button onclick="location.href='run_job.html'">Force Run a Job</button>
-            <button onclick="location.href='purge.html'">Purge Job</button>
-            <button onclick="location.href='reload.html'">Reload Job</button>
-            <button onclick="location.href='list.html'">List Job</button>
-        </div>
-        <div class="button-container">
-            <button onclick="location.href='add.html'">Add a Job</button>
-            <button onclick="location.href='modify.html'">Modify Job</button>
-        </div>
         </style>
         </head>
+        {% load static %}
+        <body>
+            <div class="colored-band"></div>
+            <div class="content">
+                 <h1>Take control of your SaltStack infrastructure with click-to-run scheduling</h1>
+            <p>Hover over each of these buttons to know more. Click on them to manage your Job.</p>
+            </div>
+            <img src="{% static 'img/use.png' %}" class="top-left-image" alt="Your Image">
+            <div class="button-container">
+                <button class="button-56" onclick="location.href='delete.html'">Delete Job</button>
+                <button class="button-56" onclick="location.href='enable.html'">Enable Job</button>
+                <button class="button-56" onclick="location.href='disable.html'">Disable Job</button>
+                <button class="button-56" onclick="location.href='job_status.html'">Status of Job</button>
+                <button class="button-56" onclick="location.href='run_job.html'">Force Run a Job</button>
+                <button class="button-56" onclick="location.href='purge.html'">Purge Job</button>
+                <button class="button-56" onclick="location.href='reload.html'">Reload Job</button>
+                <button class="button-56" onclick="location.href='list.html'">List Jobs</button>
+                <button class="button-56" onclick="location.href='add.html'">Add Job</button>
+                <button class="button-56" onclick="location.href='modify.html'">Modify Job</button>
+                <button class="button-56" onclick="location.href='script.html'">Schedule Script</button>
+            </div>
         </html>

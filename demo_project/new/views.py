@@ -172,7 +172,8 @@ def runjob(target, jobname):
         "client": "local",
         "tgt": target,
         "fun": "schedule.run_job", 
-        "arg": [jobname], "force=True"
+        "arg": [jobname], 
+        "force": "True",
         "username": "ananya",
         "password": "bing",
         "eauth": "pam"
@@ -263,7 +264,29 @@ def listjob(target):
     }
 
     response = requests.post(api_url, json=data)
-    return response.json()["return"]
+    data = response.json()["return"]
+    beautified_data = json.dumps(data, indent=4)
+    print(beautified_data)
+
+    if isinstance(data, list) and len(data) == 1:  # Check for list with one element
+        minion_data = data[0]  # Access the single dictionary
+        if isinstance(minion_data, dict):
+            minion_status = minion_data.get("Minion1")  # Get value for "Minion1" key (or None if missing)
+            if minion_status:
+                # Check for enabled state and print accordingly
+                if "enabled: true" in minion_status:
+                    print(f"Minion1 Status:\n{minion_status}")
+                else:
+                    print("Minion1: NO JOB SCHEDULED")
+            else:
+                print("No data found for Minion1")
+        else:
+            print("Unexpected data format within list")
+    else:
+        print("Unexpected data format")
+
+    return beautified_data  # You can still return the raw data if needed
+
 
 def add_form_view(request):
     # For add job schedule page
@@ -292,7 +315,7 @@ def add_form_view(request):
 def add_job(target,jobname,commandname,scheduleType,intervalUnit,intervalValue,cronExpression):
     # For adding jobs
     api_url = f"http://192.168.64.16:8000/run"
-
+    print(scheduleType)
     data = {
         "client": "local",
         "tgt": target,
@@ -305,16 +328,17 @@ def add_job(target,jobname,commandname,scheduleType,intervalUnit,intervalValue,c
         "password": "bing",
         "eauth": "pam"
     } 
+    
     if scheduleType == "cron":
         # Add cron expression to kwarg
         data["kwarg"]["cron"] = cronExpression # Replace with user-provided cron expression
     elif scheduleType == "timeInterval":
         # Add interval and unit to kwarg (ensure schedule_value and schedule_unit have values)
         if intervalUnit is None or intervalValue is None:
-            raise ValueError("Missing schedule_value or schedule_unit for time interval")
+           raise ValueError("Missing schedule_value or schedule_unit for time interval")
         data["kwarg"]["kwargs"] = {  # Nested dictionary for interval and unit
-            "interval": intervalValue,
-            "unit": intervalUnit
+           "interval": intervalValue,
+           "unit": intervalUnit
         }
     else:
         raise ValueError("Invalid schedule_type. Must be 'cron' or 'timeInterval'")
@@ -359,6 +383,43 @@ def modify_job(target,jobname,commandname):
     response = requests.post(api_url, json=data)
     return response.json()["return"]
 
+def script_form_view(request):
+    # For schedule a script page
+    if request.method == 'POST':
+        salt_function = request.POST.get('salt_function', '')
+        target_minion = request.POST.get('target_minion', '')
+        jobname = request.POST.get('jobname', '')
+        scriptarea = request.POST.get('scriptarea','')
+        res = script_schedule(target=target_minion, jobname=jobname,scriptarea=scriptarea)
+        print(res)
+        print("Salt Function:",  salt_function)  
+        print("Target Node:", target_minion)
+        print("jobname:", jobname)
+        print('scriptarea:', scriptarea)
+        return HttpResponse(res)
+    return render(request, 'script.html')
+
+def script_schedule(target,jobname,scriptarea):
+    # For schedule a script
+    api_url = f"http://192.168.64.16:8000/run"
+
+    data = {
+        "client": "local",
+        "tgt": target,
+        "fun": "schedule.add",
+        "arg": [jobname],
+        "kwarg": {
+            "function": "cmd.run",
+            "job_args": scriptarea,
+            "seconds": 3600
+        },
+        "username": "ananya",
+        "password": "bing",
+        "eauth": "pam"
+    } 
+
+    response = requests.post(api_url, json=data)
+    return response.json()["return"]
 
 class SaltFunctionView(APIView):
     permission_classes = [IsAuthenticated]
