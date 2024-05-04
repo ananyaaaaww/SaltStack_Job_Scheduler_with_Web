@@ -9,8 +9,8 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding-left: 20px; /* Left padding */
-            padding-right: 20px; /* Right padding */
+            padding-left: 30px; /* Left padding */
+            padding-right: 50px; /* Right padding */
             display: flex; /* For centering using flexbox */
             justify-content: center; /* Horizontally center content */
             align-items: center; /* Vertically center content */
@@ -44,13 +44,34 @@
             top: 0;
             left: 0;
             z-index: 1; /* Ensure it's on top of other content */
-          }
-        
+        }
+
+        .above-band2 {
+            color: #6f3aa8; 
+            text-align: center; /* Center-justify the text */
+            font-family: 'Montserrat', Arial, sans-serif; /* Preferred font with fallback options */
+            font-size: 2.5em; /* Increased font size */
+            font-weight: bold; /* Make the text bold */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); /* Optional subtle shadow */
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 180px; 
+            padding-left: 380px; 
+            width: 100%;  /* Optional: Set width to match band if needed */
+            z-index: 2; 
+        }
+          
         .content {
             padding-top: 3cm;
-            padding-right: 30px; /* Adjust this value to provide space for the band */
-            /* Add other styling for your content */
-          }
+            padding-right: 50px; 
+            padding-left: 30px; 
+            color: #6f3aa8; /* Set text color to purple */
+            text-align: left; /* Center-justify the text */
+            font-family: Arial, sans-serif; /* Specify a preferred font family */
+            font-size: 20px; /* Increase font size slightly */
+            line-height: 1.5;
+        }
 
         .button-container {
             display: grid;
@@ -59,7 +80,7 @@
             justify-content: center;
             max-width: 800px; /* Adjust this value as needed */
             margin: 0 auto;
-            padding-top: 80px;
+            padding-top: 150px;
             padding-right: 40px;
         }
         .button{
@@ -129,28 +150,104 @@
             padding: 0 40px;
         }
         }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            padding:5px
+          }
+        
+        .tooltip .tooltiptext::after {
+            content: " ";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #c6a6ea transparent transparent transparent;
+        }
+          
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -60px;
+            background-color: #c6a6ea;
+            color: #fff;
+            text-align: center;
+            padding: 15px 15px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 4s;
+          }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 4;
+          }
         
         </style>
         </head>
         {% load static %}
         <body>
-            <div class="colored-band"></div>
+            <div class="above-band2">Tired of Script Drag? This Scheduler is Fire!</div>
+            <div class="colored-band">
+            </div>
             <div class="content">
                  <h1>Take control of your SaltStack infrastructure with click-to-run scheduling</h1>
-            <p>Hover over each of these buttons to know more. Click on them to manage your Job.</p>
+            <p>Hover over each button for a sneak peek, and click to unleash the</p>
+            <p>awesome sauce of job management. Let's Go!</p>
             </div>
             <img src="{% static 'img/use.png' %}" class="top-left-image" alt="Your Image">
             <div class="button-container">
-                <button class="button-56" onclick="location.href='delete.html'">Delete Job</button>
-                <button class="button-56" onclick="location.href='enable.html'">Enable Job</button>
-                <button class="button-56" onclick="location.href='disable.html'">Disable Job</button>
-                <button class="button-56" onclick="location.href='job_status.html'">Status of Job</button>
-                <button class="button-56" onclick="location.href='run_job.html'">Force Run a Job</button>
-                <button class="button-56" onclick="location.href='purge.html'">Purge Job</button>
-                <button class="button-56" onclick="location.href='reload.html'">Reload Job</button>
-                <button class="button-56" onclick="location.href='list.html'">List Jobs</button>
+                <div class="tooltip">
                 <button class="button-56" onclick="location.href='add.html'">Add Job</button>
+                <span class="tooltiptext">Schedule jobs to run in target nodes</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='delete.html'">Delete Job</button>
+                <span class="tooltiptext">Permanently delete scheduled job</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='enable.html'">Enable Job</button>
+                <span class="tooltiptext">Start scheduled job execution</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='disable.html'">Disable Job</button>
+                <span class="tooltiptext">Temporarily halt job</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='job_status.html'">Status of Job</button>
+                <span class="tooltiptext">See job progress</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='list.html'">List Jobs</button>
+                <span class="tooltiptext">View all scheduled jobs</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='purge.html'">Purge Job</button>
+                <span class="tooltiptext">Permanently remove job</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='reload.html'">Reload Job</button>
+                <span class="tooltiptext">Restart job</span>
+                </div>
+                <div class="tooltip">
                 <button class="button-56" onclick="location.href='modify.html'">Modify Job</button>
+                <span class="tooltiptext">Edit job's details, schedule or parameters</span>
+                </div>
+                <div class="tooltip">
+                <button class="button-56" onclick="location.href='run_job.html'">Run Job Forcefully</button>
+                <span class="tooltiptext">Run a disabled job</span>
+                </div>
+                <p style="font-family: 'Lato', sans-serif; font-weight: bold; color: #6f3aa8;">Want to schedule a script instead?</p>
+                <div class="tooltip">
                 <button class="button-56" onclick="location.href='script.html'">Schedule Script</button>
+                <span class="tooltiptext">Run your script as job</span>
+                </div>
             </div>
-        </html>
+        </html> 

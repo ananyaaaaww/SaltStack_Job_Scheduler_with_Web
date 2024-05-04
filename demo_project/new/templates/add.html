@@ -5,20 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salt Function Form</title>
-    <script>
-        function updateFields(value) {
-          const timeIntervalDiv = document.getElementById("timeIntervalDiv");
-          const cronTextBox = document.getElementById("cronTextBox");
-        
-          if (value === "cron") {
-            timeIntervalDiv.style.display = "none";
-            cronTextBox.style.display = "block";
-          } else {
-            timeIntervalDiv.style.display = "block";
-            cronTextBox.style.display = "none";
-          }
-        }
-    </script>
 </head>
 <style>
 body {
@@ -30,16 +16,31 @@ body {
     min-height: 90vh; 
 }
 .container {
-    background-color: #f5f5f5; 
-    padding: 20px; 
-    border-radius: 5px;
-    color: #9b59b6;
+  padding: 20px; 
+  padding-top: 80px;
+  border-radius: 5px;
+  color: #5f259f;
 }
 form {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f5f5f5;
+}
+
+.back-button {
+  position: fixed; /* Ensures the button stays in place when scrolling */
+  top: 10px; /* Adjust top padding as needed */
+  left: 10px;  /* Adjust left padding as needed */
+  border: none; /* Remove default border */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer; /* Indicate clickable element */
+  background-color: #5f259f; 
+  color: white; 
+  cursor: pointer; 
+  transition: background-color 0.2s ease-in-out;  /* Text color */
+  font-weight: bold; /* Emphasize the button text */
+  border-radius: 5px; /* Rounded corners */
 }
 
 label {
@@ -55,7 +56,7 @@ button {
 }
 
 button {
-    background-color: #9b59b6; 
+    background-color: #5f259f; 
     color: white; 
     cursor: pointer; 
     transition: background-color 0.2s ease-in-out; 
@@ -63,11 +64,73 @@ button {
 
 button:hover {
     background-color: white; 
-    color: #9b59b6;
+    color: #5f259f ;
+}
+
+.button{
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1cm; /* Adjust margin to add space between buttons */
+}
+
+.button-56 {
+  align-items: center;
+  background-color: #6f3aa8;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #ffffff; ;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter,sans-serif;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 80%;
+  height: 50px;
+  padding: 15px 30px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-56:active {
+  background-color: #6f3aa8;
+  outline: 0;
+}
+
+.button-56:hover {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+.button-56 {
+  padding: 0 40px;
+}
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 1cm; /* Adjust the gap between buttons */
+  justify-content: center;
+  max-width: 800px; /* Adjust this value as needed */
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-right: 40px;
+  padding-left:50px;
 }
 
 </style>
 <body>
+    <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
         <h2>Add a Job: Earn Your "Good Job!" Badge</h2> 
     <form method="post" action=" ">
@@ -84,29 +147,31 @@ button:hover {
     <label for="commandname">Commandname:</label>
     <input type="text" name="commandname" id="commmandname"> 
     <br>
-    <select id="scheduleType" onchange="updateFields(this.value)">
-        <option value="cron">Cron</option>
-        <option value="timeInterval">Time Interval</option>
-      </select>
-    
-      <div id="cronTextBox">
-        <label for="cronExpression">Cron Expression:</label>
-        <input type="text" id="cronExpression" name="cronExpression" placeholder="e.g. 0 0 * * *">
-      </div>
-
-      <div id="timeIntervalDiv" style="display: none;">
-        <label for="intervalUnit">Unit:</label>
-        <select id="intervalUnit">
-          <option value="seconds">Seconds</option>
-          <option value="minutes">Minutes</option>
-          <option value="hours">Hours</option>
-          <option value="date">Specific Date</option>
-        </select>
-        <label for="scheduleType">Value:</label>
-        <input type="text" id="intervalValue" name="intervalValue" >
-      </div>
+    <label for="intervalUnit">Interval Unit:</label>
+    <select id="intervalUnit" name="intervalUnit">
+    <option value="seconds">seconds</option>
+    <option value="minutes">minutes</option>
+    <option value="hours">hours</option>
+    <option value="date">date</option>
+    <option value="cron">cron</option>
+    </select>
+    <label for="intervalValue">Value:</label>
+    <input type="text" id="intervalValue" name="intervalValue" placeholder="Enter value">
     <button type="submit">Add Job</button>
-</form> 
+  </form> 
+<h3 style="text-align:center">Manage your job now with just one click.</h3> 
+<div class="button-container">
+    <button class="button-56" onclick="location.href='script.html'">Schedule Job</button>
+    <button class="button-56" onclick="location.href='delete.html'">Delete Job</button>
+    <button class="button-56" onclick="location.href='enable.html'">Enable Job</button>
+    <button class="button-56" onclick="location.href='disable.html'">Disable Job</button>
+    <button class="button-56" onclick="location.href='job_status.html'">Status of Job</button>
+    <button class="button-56" onclick="location.href='list.html'">List Jobs</button>
+    <button class="button-56" onclick="location.href='purge.html'">Purge Job</button>
+    <button class="button-56" onclick="location.href='reload.html'">Reload Job</button>
+    <button class="button-56" onclick="location.href='modify.html'">Modify Job</button>
+    <button class="button-56" onclick="location.href='run_job.html'">Run Job Forcefully</button>
+</div>
 </body>
 </html>
 

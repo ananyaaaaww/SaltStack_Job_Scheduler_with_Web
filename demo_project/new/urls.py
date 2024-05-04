@@ -17,6 +17,7 @@ urlpatterns = [
     path('home/add.html',views.add_form_view),
     path('home/modify.html',views.modify_form_view),
     path('home/script.html',views.script_form_view),
+    path('home/home.html',views.home_form_view),
     path('salt/function/', views.SaltFunctionView.as_view(), name='salt_function')
 ]
 

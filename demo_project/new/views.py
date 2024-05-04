@@ -265,10 +265,10 @@ def listjob(target):
 
     response = requests.post(api_url, json=data)
     data = response.json()["return"]
-    beautified_data = json.dumps(data, indent=4)
-    print(beautified_data)
+    #beautified_data = json.dumps(data, indent=4)
+    data1 = (data[0][target])
 
-    if isinstance(data, list) and len(data) == 1:  # Check for list with one element
+    """ if isinstance(data, list) and len(data) == 1:  # Check for list with one element
         minion_data = data[0]  # Access the single dictionary
         if isinstance(minion_data, dict):
             minion_status = minion_data.get("Minion1")  # Get value for "Minion1" key (or None if missing)
@@ -283,9 +283,9 @@ def listjob(target):
         else:
             print("Unexpected data format within list")
     else:
-        print("Unexpected data format")
+        print("Unexpected data format")"""
 
-    return beautified_data  # You can still return the raw data if needed
+    return data1
 
 
 def add_form_view(request):
@@ -295,53 +295,48 @@ def add_form_view(request):
         target_minion = request.POST.get('target_minion', '')
         jobname = request.POST.get('jobname', '')
         commandname = request.POST.get('commandname','')
-        scheduleType= request.POST.get('scheduleType','')
-        intervalUnit=request.POST.get('intervalUnit','')
-        intervalValue=request.POST.get('intervalValue','')
-        cronExpression=request.POST.get('cronExpression','')
-        res = add_job(target=target_minion, jobname=jobname,commandname=commandname,scheduleType=scheduleType,intervalUnit=intervalUnit,intervalValue=intervalValue,cronExpression=cronExpression)
+        intervalUnit = request.POST.get('intervalUnit','')
+        intervalValue = request.POST.get('intervalValue','')
+        res = add_job(target=target_minion, jobname=jobname,commandname=commandname,intervalUnit=intervalUnit,intervalValue=intervalValue)
         print(res)
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
         print('command name:', commandname)
-        print('scheduleType:',scheduleType)
         print('intervalUnit:',intervalUnit)
         print('intervalValue:',intervalValue)
-        print('cronExpression:',cronExpression)
         return HttpResponse(res)
     return render(request, 'add.html')
 
-def add_job(target,jobname,commandname,scheduleType,intervalUnit,intervalValue,cronExpression):
+def add_job(target,jobname,commandname,intervalUnit,intervalValue):
     # For adding jobs
     api_url = f"http://192.168.64.16:8000/run"
-    print(scheduleType)
     data = {
         "client": "local",
         "tgt": target,
         "fun": "schedule.add",
         "arg": [jobname],
         "kwarg": {
-            "function": commandname,                
+            "function": commandname,  
+            intervalUnit: intervalValue,         
         },
         "username": "ananya",
         "password": "bing",
         "eauth": "pam"
     } 
-    
-    if scheduleType == "cron":
+    """ if scheduleType == "cron":
         # Add cron expression to kwarg
         data["kwarg"]["cron"] = cronExpression # Replace with user-provided cron expression
     elif scheduleType == "timeInterval":
         # Add interval and unit to kwarg (ensure schedule_value and schedule_unit have values)
-        if intervalUnit is None or intervalValue is None:
+        if not intervalUnit or not intervalValue:
            raise ValueError("Missing schedule_value or schedule_unit for time interval")
         data["kwarg"]["kwargs"] = {  # Nested dictionary for interval and unit
            "interval": intervalValue,
            "unit": intervalUnit
         }
     else:
-        raise ValueError("Invalid schedule_type. Must be 'cron' or 'timeInterval'")
+        raise ValueError("Invalid schedule_type. Must be 'cron' or 'timeInterval'")"""
 
     response = requests.post(api_url, json=data)
     return response.json()["return"]
