@@ -6,8 +6,20 @@ import requests
 import logging
 import json 
 import os
+from new.functions import handle_uploaded_file  
+from new.forms import StudentForm  
 
 logger = logging.getLogger('django')
+ 
+def index(request):  
+    if request.method == 'POST':  
+        student = StudentForm(request.POST, request.FILES)  
+        if student.is_valid():  
+            handle_uploaded_file(request.FILES['file'])  
+            return HttpResponse("File uploaded successfuly")  
+    else:  
+        student = StudentForm()  
+        return render(request,"testfile.html",{'form':student})  
 
 def home_form_view(request):
     # For home page
@@ -38,7 +50,6 @@ def delete_form_view(request):
         print("jobname:", jobname)
         return HttpResponse(res)
     return render(request, 'delete.html')
-
 
 def deletejob(target, jobname):
     # For delete job 
@@ -287,7 +298,6 @@ def listjob(target):
 
     return data1
 
-
 def add_form_view(request):
     # For add job schedule page
     if request.method == 'POST':
@@ -384,34 +394,33 @@ def script_form_view(request):
         salt_function = request.POST.get('salt_function', '')
         target_minion = request.POST.get('target_minion', '')
         jobname = request.POST.get('jobname', '')
-        scriptarea = request.POST.get('scriptarea','')
-        res = script_schedule(target=target_minion, jobname=jobname,scriptarea=scriptarea)
+        res = script_schedule(target=target_minion, jobname=jobname)
         print(res)
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
-        print('scriptarea:', scriptarea)
+        student = StudentForm(request.POST, request.FILES)  
+        if student.is_valid():  
+            handle_uploaded_file(request.FILES['file'])  
+        else:  
+            student = StudentForm()  
         return HttpResponse(res)
     return render(request, 'script.html')
 
-def script_schedule(target,jobname,scriptarea):
+def script_schedule(target,jobname):
     # For schedule a script
     api_url = f"http://192.168.64.16:8000/run"
 
     data = {
-        "client": "local",
-        "tgt": target,
-        "fun": "schedule.add",
-        "arg": [jobname],
-        "kwarg": {
-            "function": "cmd.run",
-            "job_args": scriptarea,
-            "seconds": 3600
-        },
-        "username": "ananya",
-        "password": "bing",
-        "eauth": "pam"
-    } 
+    "client": "wheel",
+    "fun": "file_roots.write",
+    "path": "/srv/salt/example_file.sh",  # Specify the path where you want to write the file
+    "saltenv": "base",
+    "data": "/Users/ananya1.intern/Documents/test/test.sh",  # Content of the file you want to write
+    "username": "ananya",
+    "password": "bing",
+    "eauth": "pam"
+}
 
     response = requests.post(api_url, json=data)
     return response.json()["return"]

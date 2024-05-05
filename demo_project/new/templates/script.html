@@ -6,6 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salt Function Form</title>
 </head>
+<script>
+    function checkFile() {
+        const fileInput = document.getElementById('fileInput');
+        const fileError = document.getElementById('fileError');
+        const allowedExtensions = /(\.sh)$/i;
+
+        if (!allowedExtensions.exec(fileInput.value)) {
+            fileInput.value = '';
+            fileError.textContent = 'Please upload .sh format only.';
+            return false;
+        } else {
+            fileError.textContent = '';
+        }
+    }
+
+    function validateForm() {
+        const fileInput = document.getElementById('fileInput');
+
+        // Check if a file is selected
+        if (fileInput.value === '') {
+            alert('Please select a file.');
+            return false;
+        }
+
+        // Check file extension
+        const allowedExtensions = /(\.sh)$/i;
+        if (!allowedExtensions.exec(fileInput.value)) {
+            alert('Please upload .sh format only.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -134,7 +168,7 @@ button:hover {
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
         <h2>Schedule a Script: More Like SaltStack Scheduler+ </h2> 
-    <form method="post" action=" ">
+    <form method="post" action=" " class="post-form" enctype="multipart/form-data">
     {% csrf_token %} 
     <label for="salt_function">Salt Function:</label>
     <input type="text" name="salt_function" id="salt_function" value="schedule.add" readonly>
@@ -145,8 +179,9 @@ button:hover {
     <label for="jobname">Jobname:</label>
     <input type="text" name="jobname" id="jobname"> 
     <br>
-    <label for="scriptarea">Script:</label>
-    <textarea id="scriptarea" rows="10" cols="30" name="scriptarea" placeholder="Paste your shell script here"></textarea>
+    <label for="scriptarea">Upload your script here (only in .sh format):</label>
+    <input type="file" id="fileInput" name="file" accept=".sh" onchange="checkFile()">
+    <span id="fileError" style="color: red;"></span>
     <br>
     <button type="submit">Schedule your script to run</button>
 </form>
