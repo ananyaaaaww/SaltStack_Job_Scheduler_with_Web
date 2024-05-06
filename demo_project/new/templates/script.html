@@ -5,41 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salt Function Form</title>
+    <script src="script.js"></script>
 </head>
-<script>
-    function checkFile() {
-        const fileInput = document.getElementById('fileInput');
-        const fileError = document.getElementById('fileError');
-        const allowedExtensions = /(\.sh)$/i;
-
-        if (!allowedExtensions.exec(fileInput.value)) {
-            fileInput.value = '';
-            fileError.textContent = 'Please upload .sh format only.';
-            return false;
-        } else {
-            fileError.textContent = '';
-        }
-    }
-
-    function validateForm() {
-        const fileInput = document.getElementById('fileInput');
-
-        // Check if a file is selected
-        if (fileInput.value === '') {
-            alert('Please select a file.');
-            return false;
-        }
-
-        // Check file extension
-        const allowedExtensions = /(\.sh)$/i;
-        if (!allowedExtensions.exec(fileInput.value)) {
-            alert('Please upload .sh format only.');
-            return false;
-        }
-
-        return true;
-    }
-</script>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -167,7 +134,7 @@ button:hover {
 <body>
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
-        <h2>Schedule a Script: More Like SaltStack Scheduler+ </h2> 
+        <h2>Schedule a Script</h2> 
     <form method="post" action=" " class="post-form" enctype="multipart/form-data">
     {% csrf_token %} 
     <label for="salt_function">Salt Function:</label>
@@ -182,6 +149,20 @@ button:hover {
     <label for="scriptarea">Upload your script here (only in .sh format):</label>
     <input type="file" id="fileInput" name="file" accept=".sh" onchange="checkFile()">
     <span id="fileError" style="color: red;"></span>
+    <br>
+    <br>
+    <label for="intervalUnit">Interval Unit:</label>
+    <select id="intervalUnit" name="intervalUnit">
+    <option value="seconds">seconds</option>
+    <option value="minutes">minutes</option>
+    <option value="hours">hours</option>
+    <option value="date">date</option>
+    <option value="cron">cron</option>
+    </select>
+    <br>
+    <br>
+    <label for="intervalValue">Value:</label>
+    <input type="text" id="intervalValue" name="intervalValue" placeholder="Enter value">
     <br>
     <button type="submit">Schedule your script to run</button>
 </form>
@@ -198,5 +179,18 @@ button:hover {
     <button class="button-56" onclick="location.href='modify.html'">Modify Job</button>
     <button class="button-56" onclick="location.href='run_job.html'">Run Job Forcefully</button>
 </div>
+<script>
+    // Call your Django view when the form is submitted (assuming you have a form)
+    document.getElementById('your_form_id').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      fetch('/list_form_view/', {  // Replace with your actual URL
+        method: 'POST',
+        body: new FormData(document.getElementById('your_form_id'))  // Assuming form data submission
+      })
+      .then(response => response.json())
+      .then(data => handleResponse(data));
+    });
+  </script>
 </body>
 </html>

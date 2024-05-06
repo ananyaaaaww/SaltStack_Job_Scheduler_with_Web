@@ -66,7 +66,9 @@ def deletejob(target, jobname):
     } 
 
     response = requests.post(api_url, json=data)
-    return response.json()["return"]
+    data = response.json()["return"]
+    data1=data[0]
+    return data1
 
 def enable_form_view(request):
     # For enable schedule page
@@ -276,7 +278,6 @@ def listjob(target):
 
     response = requests.post(api_url, json=data)
     data = response.json()["return"]
-    #beautified_data = json.dumps(data, indent=4)
     data1 = (data[0][target])
 
     """ if isinstance(data, list) and len(data) == 1:  # Check for list with one element
@@ -296,7 +297,8 @@ def listjob(target):
     else:
         print("Unexpected data format")"""
 
-    return data1
+    # Return the formatted data
+    return data1 
 
 def add_form_view(request):
     # For add job schedule page
@@ -333,23 +335,11 @@ def add_job(target,jobname,commandname,intervalUnit,intervalValue):
         "username": "ananya",
         "password": "bing",
         "eauth": "pam"
-    } 
-    """ if scheduleType == "cron":
-        # Add cron expression to kwarg
-        data["kwarg"]["cron"] = cronExpression # Replace with user-provided cron expression
-    elif scheduleType == "timeInterval":
-        # Add interval and unit to kwarg (ensure schedule_value and schedule_unit have values)
-        if not intervalUnit or not intervalValue:
-           raise ValueError("Missing schedule_value or schedule_unit for time interval")
-        data["kwarg"]["kwargs"] = {  # Nested dictionary for interval and unit
-           "interval": intervalValue,
-           "unit": intervalUnit
-        }
-    else:
-        raise ValueError("Invalid schedule_type. Must be 'cron' or 'timeInterval'")"""
+    }
 
     response = requests.post(api_url, json=data)
-    return response.json()["return"]
+    data= response.json()["return"]
+    return data
 
 def modify_form_view(request):
     # For modify job schedule page
@@ -358,16 +348,20 @@ def modify_form_view(request):
         target_minion = request.POST.get('target_minion', '')
         jobname = request.POST.get('jobname', '')
         commandname = request.POST.get('commandname','')
-        res = modify_job(target=target_minion, jobname=jobname,commandname=commandname)
+        intervalUnit = request.POST.get('intervalUnit','')
+        intervalValue = request.POST.get('intervalValue','')
+        res = modify_job(target=target_minion, jobname=jobname,commandname=commandname, intervalUnit=intervalUnit,intervalValue=intervalValue)
         print(res)
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
         print('command name:', commandname)
+        print('intervalUnit:',intervalUnit)
+        print('intervalValue:',intervalValue)
         return HttpResponse(res)
     return render(request, 'modify.html')
 
-def modify_job(target,jobname,commandname):
+def modify_job(target,jobname,commandname,intervalUnit,intervalValue):
     # For modifying jobs
     api_url = f"http://192.168.64.16:8000/run"
 
@@ -378,7 +372,7 @@ def modify_job(target,jobname,commandname):
         "arg": [jobname],
         "kwarg": {
             "function": commandname,
-            "seconds": 3600
+            intervalUnit: intervalValue, 
         },
         "username": "ananya",
         "password": "bing",
@@ -394,11 +388,15 @@ def script_form_view(request):
         salt_function = request.POST.get('salt_function', '')
         target_minion = request.POST.get('target_minion', '')
         jobname = request.POST.get('jobname', '')
-        res = script_schedule(target=target_minion, jobname=jobname)
+        intervalUnit = request.POST.get('intervalUnit','')
+        intervalValue = request.POST.get('intervalValue','')
+        res = script_schedule(target=target_minion, jobname=jobname, intervalUnit=intervalUnit,intervalValue=intervalValue)
         print(res)
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
+        print('intervalUnit:',intervalUnit)
+        print('intervalValue:',intervalValue)
         student = StudentForm(request.POST, request.FILES)  
         if student.is_valid():  
             handle_uploaded_file(request.FILES['file'])  
@@ -407,20 +405,49 @@ def script_form_view(request):
         return HttpResponse(res)
     return render(request, 'script.html')
 
-def script_schedule(target,jobname):
+def filetransfer(file):
+    api_url = "http://192.168.64.16:8000/run"
+    local_file_path = "/Users/ananya1.intern/Documents/test/" + file
+
+# Read the content of the local file
+    try:
+        with open(local_file_path, "r") as f:
+            file_content = f.read()
+    except FileNotFoundError:
+        print(f"File '{local_file_path}' not found.")
+        exit()
+    data = {
+        "client": "wheel",
+        "fun": "file_roots.write",
+        "path": "file.sh",  # Specify the path where you want to write the file
+        "saltenv": "base",
+        "data": file_content,  # Content of the file you want to write
+        "username": "ananya",
+        "password": "bing",
+        "eauth": "pam"
+    }
+    
+    response = requests.post(api_url, json=data)
+    return response.json()["return"]
+
+def script_schedule(target,jobname, intervalUnit, intervalValue):
     # For schedule a script
     api_url = f"http://192.168.64.16:8000/run"
 
     data = {
-    "client": "wheel",
-    "fun": "file_roots.write",
-    "path": "/srv/salt/example_file.sh",  # Specify the path where you want to write the file
-    "saltenv": "base",
-    "data": "/Users/ananya1.intern/Documents/test/test.sh",  # Content of the file you want to write
-    "username": "ananya",
-    "password": "bing",
-    "eauth": "pam"
-}
+        "client": "local",
+        "tgt": target,
+        "fun": "schedule.add",
+        "arg": [jobname],
+        "kwarg": {
+            "function": "cmd.run",
+            "job_args": ['/home/ubuntu/test/file.sh'],
+            intervalUnit: intervalValue, 
+        },
+        "username": "ananya",
+        "password": "bing",
+        "eauth": "pam"
+    } 
 
     response = requests.post(api_url, json=data)
     return response.json()["return"]

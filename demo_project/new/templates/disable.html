@@ -132,13 +132,13 @@ button:hover {
 <body>
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
-        <h2>Disable Scheduled Job: Hit the Brakes [for now] </h2>
+        <h2>Disable Scheduled Job</h2>
     <form method="post" action=" ">
     {% csrf_token %} 
     <label for="salt_function">Salt Function:</label>
     <input type="text" name="salt_function" id="salt_function" value="schedule.disable_job" readonly>
     <br>
-    <label for="target_minion">Target Minion(s):</label>
+    <label for="target_minion">Target Node(s):</label>
     <input type="text" name="target_minion" id="target_minion"> 
     <br>
     <label for="jobname">Jobname:</label>
@@ -151,7 +151,7 @@ button:hover {
     <button class="button-56" onclick="location.href='add.html'">Add Job</button>
     <button class="button-56" onclick="location.href='delete.html'">Delete Job</button>
     <button class="button-56" onclick="location.href='enable.html'">Enable Job</button>
-    <button class="button-56" onclick="location.href='script.html'">Schedule Job</button>
+    <button class="button-56" onclick="location.href='script.html'">Schedule Script</button>
     <button class="button-56" onclick="location.href='job_status.html'">Status of Job</button>
     <button class="button-56" onclick="location.href='list.html'">List Jobs</button>
     <button class="button-56" onclick="location.href='purge.html'">Purge Job</button>

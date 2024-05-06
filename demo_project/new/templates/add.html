@@ -132,7 +132,7 @@ button:hover {
 <body>
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
-        <h2>Add a Job: Earn Your "Good Job!" Badge</h2> 
+        <h2>Add a Job</h2> 
     <form method="post" action=" ">
     {% csrf_token %} 
     <label for="salt_function">Salt Function:</label>
@@ -155,8 +155,11 @@ button:hover {
     <option value="date">date</option>
     <option value="cron">cron</option>
     </select>
+    <br>
+    <br>
     <label for="intervalValue">Value:</label>
     <input type="text" id="intervalValue" name="intervalValue" placeholder="Enter value">
+    <br>
     <button type="submit">Add Job</button>
   </form> 
 <h3 style="text-align:center">Manage your job now with just one click.</h3> 

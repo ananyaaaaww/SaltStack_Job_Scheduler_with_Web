@@ -131,13 +131,13 @@ button:hover {
 <body>
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
-        <h2>Modify a Job: Fine-Tune Your SaltStack Job</h2> 
+        <h2>Modify a Job</h2> 
     <form method="post" action=" ">
     {% csrf_token %} 
     <label for="salt_function">Salt Function:</label>
     <input type="text" name="salt_function" id="salt_function" value="schedule.modify" readonly>
     <br>
-    <label for="target_minion">Target Minion(s):</label>
+    <label for="target_minion">Target Node(s):</label>
     <input type="text" name="target_minion" id="target_minion"> 
     <br>
     <label for="jobname">Jobname:</label>
@@ -145,6 +145,18 @@ button:hover {
     <br>
     <label for="commandname">Commandname:</label>
     <input type="text" name="commandname" id="commmandname"> 
+    <label for="intervalUnit">Interval Unit:</label>
+    <select id="intervalUnit" name="intervalUnit">
+    <option value="seconds">seconds</option>
+    <option value="minutes">minutes</option>
+    <option value="hours">hours</option>
+    <option value="date">date</option>
+    <option value="cron">cron</option>
+    </select>
+    <br>
+    <br>
+    <label for="intervalValue">Value:</label>
+    <input type="text" id="intervalValue" name="intervalValue" placeholder="Enter value">
     <br>
     <button type="submit">Modify Job</button>
 </form> 
@@ -158,7 +170,7 @@ button:hover {
     <button class="button-56" onclick="location.href='list.html'">List Jobs</button>
     <button class="button-56" onclick="location.href='purge.html'">Purge Job</button>
     <button class="button-56" onclick="location.href='reload.html'">Reload Job</button>
-    <button class="button-56" onclick="location.href='script.html'">Schedule Job</button>
+    <button class="button-56" onclick="location.href='script.html'">Schedule Script</button>
     <button class="button-56" onclick="location.href='run_job.html'">Run Job Forcefully</button>
 </div>
 </body>
