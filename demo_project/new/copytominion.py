@@ -7,9 +7,9 @@ def copytominion():
 
     data = {
         "client": "local",
-        "fun": "cp.push",
+        "fun": "cp.get_file",
         "tgt": "Minion1",  # Target minions or minion group. Use '*' for all minions.
-        "arg": [ "salt://srv/salt/file.sh" , "/home/ubuntu/test/second.sh"
+        "arg": [ "salt://file.sh" , "/home/ubuntu/test/second.sh"
         ], 
         "username": "ananya",
         "password": "bing",

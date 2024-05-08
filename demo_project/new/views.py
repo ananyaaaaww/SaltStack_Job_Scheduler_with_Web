@@ -10,7 +10,7 @@ from new.functions import handle_uploaded_file
 from new.forms import StudentForm  
 
 logger = logging.getLogger('django')
- 
+
 def index(request):  
     if request.method == 'POST':  
         student = StudentForm(request.POST, request.FILES)  
@@ -279,23 +279,6 @@ def listjob(target):
     response = requests.post(api_url, json=data)
     data = response.json()["return"]
     data1 = (data[0][target])
-
-    """ if isinstance(data, list) and len(data) == 1:  # Check for list with one element
-        minion_data = data[0]  # Access the single dictionary
-        if isinstance(minion_data, dict):
-            minion_status = minion_data.get("Minion1")  # Get value for "Minion1" key (or None if missing)
-            if minion_status:
-                # Check for enabled state and print accordingly
-                if "enabled: true" in minion_status:
-                    print(f"Minion1 Status:\n{minion_status}")
-                else:
-                    print("Minion1: NO JOB SCHEDULED")
-            else:
-                print("No data found for Minion1")
-        else:
-            print("Unexpected data format within list")
-    else:
-        print("Unexpected data format")"""
 
     # Return the formatted data
     return data1 
