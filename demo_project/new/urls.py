@@ -1,8 +1,6 @@
 # urls.py
 from django.urls import path
 from . import views
-from django.conf import settings  # Import settings
-from django.conf.urls.static import static 
 
 urlpatterns = [ 
     path('home/', views.home_form_view),
@@ -16,10 +14,10 @@ urlpatterns = [
     path('home/list.html',views.list_form_view),
     path('home/add.html',views.add_form_view),
     path('home/modify.html',views.modify_form_view),
+    path('list/', views.list_form_view, name='list_form_view'),
     path('home/script.html',views.script_form_view),
     path('home/home.html',views.home_form_view),
     path('salt/function/', views.SaltFunctionView.as_view(), name='salt_function')
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

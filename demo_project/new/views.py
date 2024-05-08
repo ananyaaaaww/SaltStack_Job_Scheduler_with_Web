@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated  # Example permission class
+from rest_framework.permissions import IsAuthenticated
+from django.http import JsonResponse  
 import requests 
 import logging
 import json 
@@ -257,11 +258,12 @@ def list_form_view(request):
         salt_function = request.POST.get('salt_function', '')
         target_minion = request.POST.get('target_minion', '')
         res = listjob(target=target_minion)
-        print(res)
-        print("Salt Function:",  salt_function)  
+        print("Salt Function:", salt_function)  
         print("Target Node:", target_minion)
-        return HttpResponse(res)
-    return render(request, 'list.html')
+        return JsonResponse({'response': 'Your response data here'})
+    else:
+        # Render the HTML template for GET requests
+        return render(request, 'list.html')
 
 def listjob(target):
     # For list of jobs

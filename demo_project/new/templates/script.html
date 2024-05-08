@@ -135,7 +135,7 @@ button:hover {
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
         <h2>Schedule a Script</h2> 
-    <form method="post" action=" " class="post-form" enctype="multipart/form-data">
+    <form method="post" action="" class="post-form" enctype="multipart/form-data">
     {% csrf_token %} 
     <label for="salt_function">Salt Function:</label>
     <input type="text" name="salt_function" id="salt_function" value="schedule.add" readonly>
