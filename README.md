@@ -13,6 +13,7 @@ Schedule script or command execution on target nodes using a user-friendly UI by
   
 Three : Enhanced Job Management -  
  
-Easily view, edit, delete, list and run scheduled jobs through a web-based interface, reducing errors for all the users.
+Easily view, edit, delete, list and run scheduled jobs through a web-based interface, reducing errors for all the users.  
+  
   
 <img width="1092" alt="Screenshot 2024-05-10 at 12 17 13 AM" src="https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web/assets/134645478/935dc417-e4a0-4962-a642-e8fd1d1ab08e">
