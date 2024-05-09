@@ -260,10 +260,8 @@ def list_form_view(request):
         res = listjob(target=target_minion)
         print("Salt Function:", salt_function)  
         print("Target Node:", target_minion)
-        return JsonResponse({'response': 'Your response data here'})
-    else:
-        # Render the HTML template for GET requests
-        return render(request, 'list.html')
+        return HttpResponse(res)
+    return render(request, 'list.html')
 
 def listjob(target):
     # For list of jobs
@@ -279,11 +277,7 @@ def listjob(target):
     }
 
     response = requests.post(api_url, json=data)
-    data = response.json()["return"]
-    data1 = (data[0][target])
-
-    # Return the formatted data
-    return data1 
+    return response.json()["return"]
 
 def add_form_view(request):
     # For add job schedule page
@@ -389,31 +383,6 @@ def script_form_view(request):
             student = StudentForm()  
         return HttpResponse(res)
     return render(request, 'script.html')
-
-def filetransfer(file):
-    api_url = "http://192.168.64.16:8000/run"
-    local_file_path = "/Users/ananya1.intern/Documents/test/" + file
-
-# Read the content of the local file
-    try:
-        with open(local_file_path, "r") as f:
-            file_content = f.read()
-    except FileNotFoundError:
-        print(f"File '{local_file_path}' not found.")
-        exit()
-    data = {
-        "client": "wheel",
-        "fun": "file_roots.write",
-        "path": "file.sh",  # Specify the path where you want to write the file
-        "saltenv": "base",
-        "data": file_content,  # Content of the file you want to write
-        "username": "ananya",
-        "password": "bing",
-        "eauth": "pam"
-    }
-    
-    response = requests.post(api_url, json=data)
-    return response.json()["return"]
 
 def script_schedule(target,jobname, intervalUnit, intervalValue):
     # For schedule a script

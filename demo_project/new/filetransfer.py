@@ -1,8 +1,8 @@
 import requests
 
-def filetransfer(file):
+def filetransfer():
     api_url = "http://192.168.64.16:8000/run"
-    local_file_path = "/Users/ananya1.intern/Documents/test/" + file
+    local_file_path = "/Users/ananya1.intern/Documents/test/" #join with the name of file given by user 
     
 # Read the content of the local file
     try:
