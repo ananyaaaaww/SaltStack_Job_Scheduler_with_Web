@@ -18,12 +18,19 @@ async function getTestPing() {
         throw new Error(`API request failed: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log(data['return'][0])
+    var data = await response.json()['return'][0];
+    var keys = Object.keys(data)
+    // console.log(data)
 
-    // const ddMenu = document.getElementById("dropDownMenu");
-    // ddMenu.innerHTML = ""; // Clear existing options
+    const ddMenu = document.getElementById("ddown");
+    ddMenu.innerHTML = ""; // Clear existing options
 
+    for(const key of keys) {
+        const option = document.createElement("option")
+        option.value = key
+        option.text = key
+        ddMenu.appendChild(option)
+    }
 }
 
 getTestPing()
