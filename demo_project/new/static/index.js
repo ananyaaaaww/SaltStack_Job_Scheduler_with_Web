@@ -19,9 +19,11 @@ async function getTestPing() {
     }
 
     const data = await response.json();
-    console.log(data)
+    console.log(data['return'][0])
 
     // const ddMenu = document.getElementById("dropDownMenu");
     // ddMenu.innerHTML = ""; // Clear existing options
 
 }
+
+getTestPing()

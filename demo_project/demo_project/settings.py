@@ -137,7 +137,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 BASE_DIR = '/Users/ananya1.intern/Downloads/firstdemo/demo_project'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,"new/static"),
+)
 STATIC_URL = '/static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
