@@ -12,6 +12,16 @@ from new.forms import StudentForm
 
 logger = logging.getLogger('django')
 
+def parse_response(res):
+    res = res[0]
+    resKeys = res.keys()
+    minionResponseList = []
+    for i in resKeys:
+        temp = res[i]
+        temp.update({'name': i})
+        minionResponseList.append(temp)
+    return minionResponseList
+
 def index(request):  
     if request.method == 'POST':  
         student = StudentForm(request.POST, request.FILES)  
@@ -24,6 +34,8 @@ def index(request):
 
 def home_form_view(request):
     # For home page
+    print('request')
+    print(request)
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
         target_minion = request.POST.get('target_minion', '')
@@ -42,14 +54,17 @@ def delete_form_view(request):
     # For delete schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         res = deletejob(target=target_minion, jobname=jobname)
-        print(res)
+        # print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
-        return HttpResponse(res)
+        return render(request, 'delete.html',{'data': minionResponseList})
     return render(request, 'delete.html')
 
 def deletejob(target, jobname):
@@ -68,21 +83,22 @@ def deletejob(target, jobname):
 
     response = requests.post(api_url, json=data)
     data = response.json()["return"]
-    data1=data[0]
-    return data1
+    return data 
 
 def enable_form_view(request):
     # For enable schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         res = enablejob(target=target_minion, jobname=jobname)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
-        return HttpResponse(res)
+        return render(request, 'enable.html',{'data': minionResponseList})
     return render(request, 'enable.html')
 
 def enablejob(target, jobname):
@@ -106,14 +122,16 @@ def disable_form_view(request):
     # For disable schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         res = disablejob(target=target_minion, jobname=jobname)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
-        return HttpResponse(res)
+        return render(request, 'disable.html',{'data': minionResponseList})
     return render(request, 'disable.html')
 
 def disablejob(target, jobname):
@@ -137,14 +155,13 @@ def status_form_view(request):
     # For job status schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         res = statusjob(target=target_minion, jobname=jobname)
-        print(res)
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
-        return HttpResponse(res)
+        return render(request, 'job_status.html',{'data': res})
     return render(request, 'job_status.html')
 
 def statusjob(target, jobname):
@@ -168,14 +185,16 @@ def runjob_form_view(request):
     # For run job schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         res = runjob(target=target_minion, jobname=jobname)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
-        return HttpResponse(res)
+        return render(request, 'run_job.html',{'data': minionResponseList})
     return render(request, 'run_job.html')
 
 def runjob(target, jobname):
@@ -200,12 +219,14 @@ def purge_form_view(request):
     # For Purge job schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         res = purgejob(target=target_minion)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
-        return HttpResponse(res)
+        return render(request, 'purge.html',{'data': minionResponseList})
     return render(request, 'purge.html')
 
 def purgejob(target):
@@ -228,12 +249,14 @@ def reload_form_view(request):
     # For reload job schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         res = reloadjob(target=target_minion)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
-        return HttpResponse(res)
+        return render(request, 'reload.html',{'data': minionResponseList})
     return render(request, 'reload.html')
 
 def reloadjob(target):
@@ -256,11 +279,22 @@ def list_form_view(request):
     # For list job schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         res = listjob(target=target_minion)
+        res = res[0]
+        resKeys = res.keys()
+        jobsDict = {}
+        for i in resKeys:
+            attrs = [attr for attr in res[i].split("\n")]
+            jobsDict.update({i: []})
+            k=2
+            while(k < len(attrs)):
+                jobsDict[i].append(attrs[k].replace(' ', '').replace(':',''))
+                k+=8
+            print(jobsDict[i])
         print("Salt Function:", salt_function)  
         print("Target Node:", target_minion)
-        return HttpResponse(res)
+        return render(request, 'list.html',{'data': jobsDict})
     return render(request, 'list.html')
 
 def listjob(target):
@@ -283,20 +317,22 @@ def add_form_view(request):
     # For add job schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         commandname = request.POST.get('commandname','')
         intervalUnit = request.POST.get('intervalUnit','')
         intervalValue = request.POST.get('intervalValue','')
         res = add_job(target=target_minion, jobname=jobname,commandname=commandname,intervalUnit=intervalUnit,intervalValue=intervalValue)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
         print('command name:', commandname)
         print('intervalUnit:',intervalUnit)
         print('intervalValue:',intervalValue)
-        return HttpResponse(res)
+        return render(request, 'add.html',{'data': minionResponseList})
     return render(request, 'add.html')
 
 def add_job(target,jobname,commandname,intervalUnit,intervalValue):
@@ -324,20 +360,22 @@ def modify_form_view(request):
     # For modify job schedule page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         commandname = request.POST.get('commandname','')
         intervalUnit = request.POST.get('intervalUnit','')
         intervalValue = request.POST.get('intervalValue','')
         res = modify_job(target=target_minion, jobname=jobname,commandname=commandname, intervalUnit=intervalUnit,intervalValue=intervalValue)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
         print('command name:', commandname)
         print('intervalUnit:',intervalUnit)
         print('intervalValue:',intervalValue)
-        return HttpResponse(res)
+        return render(request, 'modify.html',{'data': minionResponseList})
     return render(request, 'modify.html')
 
 def modify_job(target,jobname,commandname,intervalUnit,intervalValue):
@@ -365,12 +403,14 @@ def script_form_view(request):
     # For schedule a script page
     if request.method == 'POST':
         salt_function = request.POST.get('salt_function', '')
-        target_minion = request.POST.get('target_minion', '')
+        target_minion = request.POST.get('ddown', '')
         jobname = request.POST.get('jobname', '')
         intervalUnit = request.POST.get('intervalUnit','')
         intervalValue = request.POST.get('intervalValue','')
         res = script_schedule(target=target_minion, jobname=jobname, intervalUnit=intervalUnit,intervalValue=intervalValue)
-        print(res)
+        minionResponseList = parse_response(res)
+        print(minionResponseList)
+
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
@@ -381,7 +421,7 @@ def script_form_view(request):
             handle_uploaded_file(request.FILES['file'])  
         else:  
             student = StudentForm()  
-        return HttpResponse(res)
+        return render(request, 'script.html',{'data': minionResponseList})
     return render(request, 'script.html')
 
 def script_schedule(target,jobname, intervalUnit, intervalValue):

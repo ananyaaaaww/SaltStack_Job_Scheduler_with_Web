@@ -132,6 +132,7 @@ button:hover {
 
 </style>
 <body>
+    <script src= "{% static 'index.js' %}"></script>
     <button id="backButton" class="back-button" onclick="location.href='home.html'"> &larr; Back To Home Page</button>
     <div class="container">
         <h2>Schedule a Script</h2> 
@@ -140,8 +141,12 @@ button:hover {
     <label for="salt_function">Salt Function:</label>
     <input type="text" name="salt_function" id="salt_function" value="schedule.add" readonly>
     <br>
-    <label for="target_minion">Target Node(s):</label>
-    <input type="text" name="target_minion" id="target_minion"> 
+    <label for="ddown">Target Node(s):  [put '*' for all Nodes/Minions]</label>
+    <select name="ddown" id="ddown">
+        <option value="" disabled selected>Select</option>
+        <option value="*" >*</option>
+    </select>
+    <br>
     <br>
     <label for="jobname">Jobname:</label>
     <input type="text" name="jobname" id="jobname"> 
@@ -166,6 +171,17 @@ button:hover {
     <br>
     <button type="submit">Schedule your script to run</button>
 </form>
+{% if data %}
+<div id="output">
+    <ul>
+    {% for item in data %}
+        <p>
+           {{ item.name }}: {{ item.comment }}
+        <p>
+    {% endfor %}
+    </ul>
+<div>
+{% endif %}
 <h3 style="text-align:center">Manage your job now with just one click.</h3> 
 <div class="button-container">
     <button class="button-56" onclick="location.href='add.html'">Add Job</button>

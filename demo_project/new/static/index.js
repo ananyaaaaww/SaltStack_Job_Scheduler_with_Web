@@ -18,12 +18,13 @@ async function getTestPing() {
         throw new Error(`API request failed: ${response.status}`);
     }
 
-    var data = await response.json()['return'][0];
-    var keys = Object.keys(data)
-    // console.log(data)
+    var data = await response.json()
+    var returns = data['return'][0];
+    var keys = Object.keys(returns)
+    console.log(keys)
 
     const ddMenu = document.getElementById("ddown");
-    ddMenu.innerHTML = ""; // Clear existing options
+    //ddMenu.innerHTML = ""; // Clear existing options
 
     for(const key of keys) {
         const option = document.createElement("option")
