@@ -8,6 +8,8 @@ import logging
 import json 
 import os
 from new.functions import handle_uploaded_file  
+from new.filetransfer import filetransfer
+from new.copytominion import copytominion
 from new.forms import StudentForm  
 
 logger = logging.getLogger('django')
@@ -407,20 +409,24 @@ def script_form_view(request):
         jobname = request.POST.get('jobname', '')
         intervalUnit = request.POST.get('intervalUnit','')
         intervalValue = request.POST.get('intervalValue','')
-        res = script_schedule(target=target_minion, jobname=jobname, intervalUnit=intervalUnit,intervalValue=intervalValue)
-        minionResponseList = parse_response(res)
-        print(minionResponseList)
-
         print("Salt Function:",  salt_function)  
         print("Target Node:", target_minion)
         print("jobname:", jobname)
         print('intervalUnit:',intervalUnit)
         print('intervalValue:',intervalValue)
         student = StudentForm(request.POST, request.FILES)  
+        # print(request.FILES['file'].name)
         if student.is_valid():  
             handle_uploaded_file(request.FILES['file'])  
+            filetransfer(request.FILES['file'].name)
+            copytominion(target=target_minion)
+            res=script_schedule(target=target_minion, jobname=jobname, intervalUnit=intervalUnit,intervalValue=intervalValue)
+            minionResponseList = parse_response(res)
+            print(minionResponseList)
+            print(res)
         else:  
             student = StudentForm()  
+            res = "failed"
         return render(request, 'script.html',{'data': minionResponseList})
     return render(request, 'script.html')
 
@@ -435,7 +441,7 @@ def script_schedule(target,jobname, intervalUnit, intervalValue):
         "arg": [jobname],
         "kwarg": {
             "function": "cmd.run",
-            "job_args": ['/home/ubuntu/test/file.sh'],
+            "job_args": ['/home/ubuntu/test/second.sh'],
             intervalUnit: intervalValue, 
         },
         "username": "ananya",

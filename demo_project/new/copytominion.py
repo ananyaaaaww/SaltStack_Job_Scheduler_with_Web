@@ -1,6 +1,6 @@
 import requests
 
-def copytominion():
+def copytominion(target):
     api_url = "http://192.168.64.16:8000/run"
     
 # Read the content of the local file
@@ -8,7 +8,7 @@ def copytominion():
     data = {
         "client": "local",
         "fun": "cp.get_file",
-        "tgt": "Minion1",  # Target minions or minion group. Use '*' for all minions.
+        "tgt": target,  # Target minions or minion group. Use '*' for all minions.
         "arg": [ "salt://file.sh" , "/home/ubuntu/test/second.sh"
         ], 
         "username": "ananya",
@@ -20,5 +20,5 @@ def copytominion():
     return response.json()["return"]
 
 # Call the function
-result = copytominion()
-print(result)  # or do something with the result
+# result = copytominion()
+# print(result)  # or do something with the result

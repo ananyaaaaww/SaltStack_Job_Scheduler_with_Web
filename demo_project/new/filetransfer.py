@@ -1,8 +1,9 @@
 import requests
 
-def filetransfer():
+def filetransfer(filename):
     api_url = "http://192.168.64.16:8000/run"
-    local_file_path = "/Users/ananya1.intern/Documents/test/" #join with the name of file given by user 
+    
+    local_file_path = "/Users/ananya1.intern/Documents/upload/" + filename #join with the name of file given by user 
     
 # Read the content of the local file
     try:
@@ -26,5 +27,5 @@ def filetransfer():
     return response.json()["return"]
 
 # Call the function
-result = filetransfer()
-print(result)  # or do something with the result
+# result = filetransfer()
+# print(result)  # or do something with the result
