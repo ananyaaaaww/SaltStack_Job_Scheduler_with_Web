@@ -30,6 +30,7 @@ Easily view, edit, delete, list and run scheduled jobs through a web-based inter
 9) https://docs.saltproject.io/en/latest/ref/configuration/master.html
 
 # Workflow of the Website
+![image](https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/d672e5b4-7e5b-4737-95a1-e5b5fed5a24d)
 
 # Conclusion & Future Scope  
 
