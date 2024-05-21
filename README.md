@@ -1,6 +1,8 @@
 # A SALTY SCHEDULER
 
 A web portal that allows users to schedule scripts or commands to run on selected target nodes using SaltStack. The tool will provide a user-friendly interface for scheduling jobs and managing the schedule through a web-based UI. 
+   
+![use](https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/ae9580e7-f7a9-4989-a878-fe2543549b31)
 
 # OBJECTIVES :
 One : Scheduling through Web UI -  
@@ -31,6 +33,13 @@ Easily view, edit, delete, list and run scheduled jobs through a web-based inter
 
 # Workflow of the Website
 ![image](https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/d672e5b4-7e5b-4737-95a1-e5b5fed5a24d)
+
+# Snapshots of the Web Page 
+![image (1)](https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/e9c29f16-35c8-4558-b30b-f7a5fe713d65)
+<img width="1728" alt="Screenshot 2024-05-14 at 2 14 29 AM" src="https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/04a2835c-7bb6-417e-884f-f09951233a58">
+<img width="1728" alt="Screenshot 2024-05-14 at 2 13 57 AM" src="https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/d027b712-39b6-45bd-beda-635891f133cb">
+![image](https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/8128d28f-4a57-405e-8002-9de781d32f85)
+<img width="1728" alt="Screenshot 2024-05-14 at 2 09 33 AM" src="https://github.com/ananyaaaaww/SaltStack_Job_Scheduler_with_Web_mysystemonly/assets/134645478/22d13f12-e2c7-4ee7-9159-d0cd8ce283ee">
 
 # Conclusion & Future Scope  
 
